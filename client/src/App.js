@@ -1,24 +1,56 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import FeaturesSection from "./components/FeaturesSection";
+import Footer from "./components/Footer";
+import HeroSection from "./components/HeroSection";
+import HowItWorksSection from "./components/HowItWorksSection";
+import Navbar from "./components/Navbar";
+import Register from "./components/Register";
+import Login from "./components/Login";
+
+const HomeLayout = () => (
+  <>
+    <Navbar />
+    <HeroSection />
+    <FeaturesSection />
+    <HowItWorksSection />
+    <Footer />
+  </>
+);
+
+const AuthLayout = ({ children }) => (
+  <div className="bg-black text-white">
+    <Navbar />
+    {children}
+    <Footer />
+  </div>
+);
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Routes>
+        <Route
+          path="/"
+          element={<HomeLayout />}
+        />
+        <Route
+          path="/register"
+          element={
+            <AuthLayout>
+              <Register />
+            </AuthLayout>
+          }
+        />
+        <Route
+          path="/login"
+          element={
+            <AuthLayout>
+              <Login />
+            </AuthLayout>
+          }
+        />
+      </Routes>
+    </Router>
   );
 }
 
