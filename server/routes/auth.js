@@ -5,30 +5,13 @@ const multer = require('multer')
 
 const User = require('../Models/User')
 
-/* config multer for file storage */
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, "public/uploads/") // store the file
-    },
-    filename: (req, file, cb) => {
-        cb(null, file.originalname) // store the file name
-    }
-})
 
-const upload = multer({storage})
 
 /* -------------------------USER REGISTER-------------------------------------------------------- */
-router.post("/register", upload.single('profileImage'), async (req, res) => {
+router.post("/register", async (req, res) => {
     try {
         /* Take all the info needed from form in client side */
         const {firstName, lastName, email, password} = req.body
-        /* get the uploaded file as req.file*/
-        const profileImage = req.file
-        if (!profileImage){
-            return res.status(400).json({msg: "Please upload a profile image"})
-        }
-        /* the path to the uploaded photo */
-        const profileImagePath = profileImage.path
         /* check if user exists in db */
         const existingUser = await User.findOne({email}) // email is is unique
         if (existingUser){
@@ -43,7 +26,6 @@ router.post("/register", upload.single('profileImage'), async (req, res) => {
             lastName,
             email,
             password: hashedPassword,
-            profileImagePath,
         }) 
         /* save the new user info */
         await newUser.save()
@@ -57,6 +39,9 @@ router.post("/register", upload.single('profileImage'), async (req, res) => {
 })
 
 /********************* USER REGISTER ENDS ***********************************************/
+
+
+
 
 
 /* -------------------USER LOGIN STARTS------------------------------------------------------ */

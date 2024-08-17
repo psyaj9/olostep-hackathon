@@ -19,11 +19,7 @@ const userSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
-        profileImagePath: {
-            type: String,
-            default: ""
-        },
-        urlList:{
+        scrappedList:{
             type: Array,
             default: [],
         },
@@ -33,4 +29,5 @@ const userSchema = new mongoose.Schema(
 )
 
 const User = mongoose.model("User", userSchema)
+
 module.exports = User
