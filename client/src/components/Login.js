@@ -1,11 +1,19 @@
 import React from 'react'
 
 const Login = () => {
-  return (
-    <section
+    return (
+        <section
             className="h-300vh flex flex-col justify-center items-center text-center text-white bg-cover bg-center bg-no-repeat"
             style={{ backgroundImage: "url('/background.png')" }}
         >
+            <div className="w-full flex justify-between px-8 pt-4 absolute top-0">
+                <a href="/" className="text-white hover:text-gray-300 text-lg">
+                    Home
+                </a>
+                <a href="/register" className="text-white hover:text-gray-300 text-lg">
+                    Sign Up
+                </a>
+            </div>
             <div className="mb-12 mt-20 bg-transparent border-2 border-teal-500 p-8 rounded-lg shadow-lg w-full max-w-md">
                 <h2 className="text-3xl font-bold text-white mb-6 text-center">Log In</h2>
                 <form className="space-y-4">
@@ -38,7 +46,7 @@ const Login = () => {
                 </p>
             </div>
         </section>
-  )
+    )
 }
 
 export default Login

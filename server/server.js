@@ -4,8 +4,6 @@ const mongoose = require('mongoose')
 const dotenv = require('dotenv').config()
 const cors = require('cors')
 
-
-
 //routes call
 const authRoute = require('./routes/auth')
 const scraperoute = require('./routes/selenium')

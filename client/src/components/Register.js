@@ -6,6 +6,14 @@ const Register = () => {
             className="h-300vh flex flex-col justify-center items-center text-center text-white bg-cover bg-center bg-no-repeat"
             style={{ backgroundImage: "url('/background.png')" }}
         >
+            <div className="w-full flex justify-between px-8 pt-4 absolute top-0">
+                <a href="/" className="text-white hover:text-gray-300 text-lg">
+                    Home
+                </a>
+                <a href="/login" className="text-white hover:text-gray-300 text-lg">
+                    Log In
+                </a>
+            </div>
             <div className="mb-12 mt-20 bg-transparent border-2 border-teal-500 p-8 rounded-lg shadow-lg w-full max-w-md">
                 <h2 className="text-3xl font-bold text-white mb-6 text-center">Sign Up</h2>
                 <form className="space-y-4">

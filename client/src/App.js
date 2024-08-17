@@ -6,6 +6,7 @@ import HowItWorksSection from "./components/HowItWorksSection";
 import Navbar from "./components/Navbar";
 import Register from "./components/Register";
 import Login from "./components/Login";
+import Home from './components/Home';
 
 const HomeLayout = () => (
   <>
@@ -18,11 +19,10 @@ const HomeLayout = () => (
 );
 
 const AuthLayout = ({ children }) => (
-  <div className="bg-black text-white">
-    <Navbar />
+  <>
     {children}
     <Footer />
-  </div>
+  </>
 );
 
 function App() {
@@ -47,6 +47,16 @@ function App() {
             <AuthLayout>
               <Login />
             </AuthLayout>
+          }
+        />
+        <Route
+          path="/home"
+          element={
+            <>
+              <Navbar />
+              <Home />
+              <Footer />
+            </>
           }
         />
       </Routes>
