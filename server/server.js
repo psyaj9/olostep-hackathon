@@ -1,69 +1,25 @@
-const express = require('express');
-const { Builder, By, until } = require('selenium-webdriver');
-const { MongoClient } = require('mongodb');
-const axios = require('axios');
-const app = express();
-const port = 3000;
+const express = require('express')
+const app = express()
+const mongoose = require('mongoose')
+const dotenv = require('dotenv').config()
+const cors = require('cors')
 
-async function scrapeAndStore() {
+//routes call
+const authRoute = require('./routes/auth')
 
-  const uri = 'mongodb://localhost:27017';
-  const client = new MongoClient(uri);
+app.use(cors())
+app.use(express.json())
 
-  const url = 'https://en.wikipedia.org/wiki/2024_Summer_Olympics';
-  try {
-    const response = await axios.get(url);
-    if (response.status === 404) {
-      console.error('Error 404: Page not found');
-      return; 
-    }
+app.use('/auth',authRoute)
 
-    await client.connect();
+const PORT = process.env.PORT || 5002
+mongoose.connect(process.env.MONGO_URL,{
+    dbName:"web-scrapper-pro",
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+}).then(() => {
+    app.listen(PORT, console.log(`server port:${PORT}`))
 
-    const database = client.db('webScrapingDB');
-    const collection = database.collection('scrapedData');
-
-    let driver = await new Builder().forBrowser('chrome').build();
-
-    try {
-      await driver.get(url);
-
-      let element = await driver.wait(until.elementLocated(By.tagName('h1')), 10000);
-
-      let h1Text = await element.getText();
-
-      console.log('h1 Tag Content:', h1Text);
-
-      const dataToStore = { url: url, h1: h1Text, date: new Date() };
-      await collection.insertOne(dataToStore);
-
-    } catch (error) {
-      if (error.name === 'NoSuchElementError') {
-        console.error('Element not found on the page');
-      } else if (error.name === 'TimeoutError') {
-        console.error('Timed out waiting for the element');
-      } else {
-        console.error('Error during scraping:', error);
-      }
-    } finally {
-      await driver.quit();
-    }
-
-  } catch (err) {
-    if (err.response && err.response.status === 404) {
-      console.error('Error 404: Page not found)');
-    } else {
-      console.error('Error connecting to MongoDB or during Axios request:', err);
-    }
-  } finally {
-    await client.close();
-  }
-}
-
-app.get('/', (req, res) => {
-    res.send(scrapeAndStore());
-});
-
-app.listen(port, () => {
-    console.log(`Server running at http://localhost:${port}`);
-});
+}).catch((err) => {
+    console.log(`${err} did not connect`)
+})
