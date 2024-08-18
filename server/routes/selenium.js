@@ -13,6 +13,7 @@ router.post('/scrape', async (req, res) => {
   let browser;
   let page;
 
+  
   try {
     // Initialize Puppeteer
     browser = await puppeteer.launch({ headless: false }); // headless: false to open the browser visibly
