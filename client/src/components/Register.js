@@ -1,6 +1,38 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const Register = () => {
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    const [error, setError] = useState('');
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await fetch('http://localhost:5002/auth/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ firstName, lastName, email, password }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                localStorage.setItem('userId', data.user._id);
+                window.location.href = '/home';
+            } else {
+                setError(data.msg || 'Registration failed');
+            }
+        } catch (err) {
+            console.error('Error registering user:', err);
+            setError('Something went wrong. Please try again.');
+        }
+    };
+
     return (
         <section
             className="h-300vh flex flex-col justify-center items-center text-center text-white bg-cover bg-center bg-no-repeat"
@@ -16,12 +48,14 @@ const Register = () => {
             </div>
             <div className="mb-12 mt-20 bg-transparent border-2 border-teal-500 p-8 rounded-lg shadow-lg w-full max-w-md">
                 <h2 className="text-3xl font-bold text-white mb-6 text-center">Sign Up</h2>
-                <form className="space-y-4">
+                <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
                         <label htmlFor="first-name" className="block text-white mb-1 text-left">First Name</label>
                         <input
                             id="first-name"
                             type="text"
+                            value={firstName}
+                            onChange={(e) => setFirstName(e.target.value)}
                             placeholder="Enter your first name"
                             className="w-full p-2 border border-white rounded bg-transparent text-white focus:outline-none focus:ring-2 focus:ring-white"
                         />
@@ -31,6 +65,8 @@ const Register = () => {
                         <input
                             id="last-name"
                             type="text"
+                            value={lastName}
+                            onChange={(e) => setLastName(e.target.value)}
                             placeholder="Enter your last name"
                             className="w-full p-2 border border-white rounded bg-transparent text-white focus:outline-none focus:ring-2 focus:ring-white"
                         />
@@ -40,6 +76,8 @@ const Register = () => {
                         <input
                             id="email"
                             type="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
                             placeholder="Enter your email"
                             className="w-full p-2 border border-white rounded bg-transparent text-white focus:outline-none focus:ring-2 focus:ring-white"
                         />
@@ -49,6 +87,8 @@ const Register = () => {
                         <input
                             id="password"
                             type="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
                             placeholder="Enter your password"
                             className="w-full p-2 border border-white rounded bg-transparent text-white focus:outline-none focus:ring-2 focus:ring-white"
                         />
@@ -60,6 +100,7 @@ const Register = () => {
                         Sign Up
                     </button>
                 </form>
+                {error && <p className="text-red-500 mt-4">{error}</p>}
                 <p className="text-center text-white mt-4">
                     Already an existing user? <a href="/login" className="text-teal-500 hover:underline">Login Here</a>
                 </p>

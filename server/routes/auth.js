@@ -5,8 +5,6 @@ const multer = require('multer')
 
 const User = require('../Models/User')
 
-
-
 /* -------------------------USER REGISTER-------------------------------------------------------- */
 router.post("/register", async (req, res) => {
     try {
@@ -72,5 +70,19 @@ router.post("/login", async (req, res) => {
     }
     /* -------------------USER LOGIN ENDS------------------------------------------------------ */
 })
+
+/* -------------------USER LOGOUT STARTS------------------------------------------------------ */
+router.get("/logout", (req, res) => {
+    try {
+        // Clear the token (this assumes you're storing the token on the client side)
+        res.status(200).json({ msg: "Logout successful" });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ error: err.message });
+    }
+});
+
+/********************* USER LOGOUT ENDS ***********************************************/
+
 
 module.exports = router
