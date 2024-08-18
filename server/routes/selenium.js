@@ -12,6 +12,7 @@ router.post('/scrape', async (req, res) => {
 
   let driver;
 
+  
   try {
     // Initialize Selenium WebDriver
     driver = await new Builder().forBrowser(browser).build();
