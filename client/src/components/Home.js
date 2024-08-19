@@ -23,7 +23,7 @@ const Home = () => {
 
       const data = await response.json();
       console.log('Server response:', data); // Log the response to check its structure
-      setResponse(data.scrapedData); 
+      setResponse(data.scrapedData);
     } catch (err) {
       setError('Failed to scrape the website. Please try again.');
     } finally {
@@ -32,9 +32,9 @@ const Home = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center p-4">
-      <div className="w-full max-w-md mx-auto mt-8">
-        <div className="mb-4">
+    <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center py-12 px-4">
+      <div className="w-full max-w-2xl mx-auto mt-8 mb-16">
+        <div className="mb-6">
           <input
             type="text"
             className="w-full p-3 bg-transparent border border-gray-400 rounded focus:outline-none focus:ring-2 focus:ring-white placeholder-gray-500"
@@ -43,7 +43,7 @@ const Home = () => {
             onChange={(e) => setUrl(e.target.value)}
           />
         </div>
-        <div className="mb-4">
+        <div className="mb-6">
           <button
             className="w-full p-3 bg-teal-500 hover:bg-teal-600 rounded focus:outline-none focus:ring-2 focus:ring-teal-400"
             onClick={handleScrape}
@@ -52,42 +52,42 @@ const Home = () => {
             {loading ? 'Scraping...' : 'Scrape it!'}
           </button>
         </div>
-        {error && <p className="text-red-500">{error}</p>}
+        {error && <p className="text-red-500 mb-4">{error}</p>}
         {response && (
-          <div className="bg-gray-800 p-4 rounded mt-4">
+          <div className="bg-gray-800 p-6 rounded mt-6">
             <h2 className="text-xl font-bold mb-4">Scraped Data</h2>
-            <div>
+            <div className="mb-4">
               <h3 className="text-lg font-semibold">Title:</h3>
-              <p className="mb-2">{response.pageTitle || 'No title found'}</p>
+              <p className="text-teal-300 mb-4">{response.pageTitle || 'No title found'}</p>
             </div>
-            <div>
+            <div className="mb-4">
               <h3 className="text-lg font-semibold">Headings:</h3>
               {response.headings.length > 0 ? (
-                <ul className="list-disc list-inside mb-2">
+                <ul className="list-disc list-inside mb-4">
                   {response.headings.map((heading, index) => (
-                    <li key={index}>{heading}</li>
+                    <li key={index} className="text-teal-300">{heading}</li>
                   ))}
                 </ul>
               ) : (
                 <p>No headings found</p>
               )}
             </div>
-            <div>
+            <div className="mb-4">
               <h3 className="text-lg font-semibold">Paragraphs:</h3>
               {response.paragraphs.length > 0 ? (
-                <ul className="list-disc list-inside mb-2">
+                <ul className="list-disc list-inside mb-4">
                   {response.paragraphs.map((paragraph, index) => (
-                    <li key={index}>{paragraph}</li>
+                    <li key={index} className="text-teal-300">{paragraph}</li>
                   ))}
                 </ul>
               ) : (
                 <p>No paragraphs found</p>
               )}
             </div>
-            <div>
+            <div className="mb-4">
               <h3 className="text-lg font-semibold">Links:</h3>
               {response.links.length > 0 ? (
-                <ul className="list-disc list-inside mb-2">
+                <ul className="list-disc list-inside mb-4">
                   {response.links.map((link, index) => (
                     <li key={index}>
                       <a
@@ -105,7 +105,7 @@ const Home = () => {
                 <p>No links found</p>
               )}
             </div>
-            <div>
+            <div className="mb-4">
               <h3 className="text-lg font-semibold">Images:</h3>
               {response.images.length > 0 ? (
                 <div className="grid grid-cols-2 gap-4">
@@ -114,7 +114,7 @@ const Home = () => {
                       <img
                         src={image.src}
                         alt={image.alt || 'No alt text'}
-                        className="max-w-full h-auto mb-2"
+                        className="max-w-full h-auto mb-2 rounded"
                       />
                       <p className="text-sm text-gray-400">{image.alt || 'No alt text'}</p>
                     </div>
@@ -126,7 +126,6 @@ const Home = () => {
             </div>
           </div>
         )}
-
       </div>
     </div>
   );

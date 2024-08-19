@@ -1,6 +1,6 @@
 const express = require('express');
 const puppeteer = require('puppeteer');
-const ScrapedData = require('../Models/ScrapedData'); // Assuming you have the model in models/ScrapedData.js
+const ScrapedData = require('../Models/ScrapedData'); 
 const router = express.Router();
 
 router.post('/scrape', async (req, res) => {
@@ -20,11 +20,10 @@ router.post('/scrape', async (req, res) => {
     page = await browser.newPage();
 
     await page.setViewport({ width: 1280, height: 720 });
-    
-    // Navigate to the provided URL
+
     await page.goto(url, { waitUntil: 'networkidle2' });
 
-    // Scrape data
+
     const scrapedData = await page.evaluate(() => {
       const data = {};
 
@@ -59,15 +58,13 @@ router.post('/scrape', async (req, res) => {
     });
 
     await newScrapedData.save();
-
-    // Send the scraped data back as a response
     res.status(200).json({scrapedData: newScrapedData});
   } catch (error) {
     console.error('Error during scraping:', error);
     res.status(500).json({ error: 'Failed to scrape the website' });
   } finally {
     if (browser) {
-      await browser.close(); // Close the browser after the operation is complete
+      await browser.close(); 
     }
   }
 });
